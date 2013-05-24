@@ -1,17 +1,17 @@
 <cfcomponent extends="fusebox5.Application" output="false">
 
-    <!--- set application name based on the directory path --->
+	<!--- set application name based on the directory path --->
 	<cfset this.name = right(REReplace(getDirectoryFromPath(getCurrentTemplatePath()),'[^A-Za-z]','','all'),64) />
 
 	<!--- for session & client management --->
-    <cfset this.sessionmanagement = true />
+	<cfset this.sessionmanagement = true />
 	<!--- <cfset this.sessiontimeout = CreateTimeSpan(0,0,20,0) /> --->
 	<!--- <cfset this.setclientcookies = true /> --->
-    <!--- <cfset this.setdomaincookies = false /> --->
+	<!--- <cfset this.setdomaincookies = false /> --->
 	<!--- <cfset this.clientmanagement = false /> --->
 
 	<!--- Data Source Names --->
-    <cfset variable.DSN = "HSCAppUniversal" />
+	<cfset variable.DSN = "HSCAppUniversal" />
 
 	<!--- fusebox parameters --->
 	<cfscript>
@@ -73,19 +73,19 @@
 		<cfparam name="jplugins" default="">
 		<cfparam name="readycode" default="">
 		<cfparam name="scripts" default="">
-        <cfparam name="side" default="">
+		<cfparam name="side" default="">
 		<cfparam name="body" default="">
 
 		<!--- global xfas --->
 		<cfparam name="xfa.home" default="app.welcome">
-        <cfparam name="xfa.admin" default="admin.start">
+		<cfparam name="xfa.admin" default="admin.start">
 
 		<!--- cfc, udfs and other objects --->
 
 		<!--- trap non-index.cfm requests --->
-        <cfif right(cgi.script_name, len("index.cfm")) neq "index.cfm" and right(cgi.script_name, 3) neq "cfc">
-            <cflocation url="#self#" addtoken="false" />
-        </cfif>
+		<cfif right(cgi.script_name, len("index.cfm")) neq "index.cfm" and right(cgi.script_name, 3) neq "cfc">
+		<cflocation url="#self#" addtoken="false" />
+		</cfif>
 
 		<cfreturn true />	
 	</cffunction>
@@ -101,43 +101,43 @@
 		<cfset super.onRequestEnd(arguments.targetPage) />
 	</cffunction>
 
-    <cffunction name="onError"
-    	returnType="void"
-        output="true">
-        <cfargument name="exception" required="true">
-        <cfargument name="eventname" type="string" required="true">
-        
-        <cfset var errortext = "">
+	<cffunction name="onError"
+		returnType="void"
+		output="true">
+		<cfargument name="exception" required="true">
+		<cfargument name="eventname" type="string" required="true">
+
+		<cfset var errortext = "">
 
 		<!--- Sends to an error log with an application's name rather than lumped into application.log --->
-        <cflog file="HSC_App_Errorlog" text="#arguments.exception.rootcause.message# #arguments.exception.rootcause.detail#">
-        
-        <!--- Create full error message --->
-        <cfsavecontent variable="errortext">
-        <cfoutput>
-        <p>An error occurred: http://#cgi.server_name##cgi.script_name#?#cgi.query_string#<br />
-        Time: #dateFormat(now(), "short")# #timeFormat(now(), "short")#</p>
-        <p>#arguments.exception.rootcause.message#<br>#arguments.exception.rootcause.detail#</p>
-        
-        <cfif IsDefined('arguments.exception.rootcause.sql')>
-        <p>#arguments.exception.rootcause.sql#</p>
-        </cfif>
-        
-        <cfdump var="#arguments.exception#" label="Error">
-        <cfdump var="#form#" label="Form">
-        <cfdump var="#url#" label="URL">
-        
-        </cfoutput>
-        </cfsavecontent>
-        
-        <!--- Optional dump error to the screen while in the dev process --->
-        <cfoutput>#errortext#</cfoutput>
-        
-        <!--- Optional email to the developer alerting them to the error
+		<cflog file="HSC_App_Errorlog" text="#arguments.exception.rootcause.message# #arguments.exception.rootcause.detail#">
+
+		<!--- Create full error message --->
+		<cfsavecontent variable="errortext">
+		<cfoutput>
+		<p>An error occurred: http://#cgi.server_name##cgi.script_name#?#cgi.query_string#<br />
+		Time: #dateFormat(now(), "short")# #timeFormat(now(), "short")#</p>
+		<p>#arguments.exception.rootcause.message#<br>#arguments.exception.rootcause.detail#</p>
+
+		<cfif IsDefined('arguments.exception.rootcause.sql')>
+		<p>#arguments.exception.rootcause.sql#</p>
+		</cfif>
+
+		<cfdump var="#arguments.exception#" label="Error">
+		<cfdump var="#form#" label="Form">
+		<cfdump var="#url#" label="URL">
+
+		</cfoutput>
+		</cfsavecontent>
+
+		<!--- Optional dump error to the screen while in the dev process --->
+		<cfoutput>#errortext#</cfoutput>
+
+		<!--- Optional email to the developer alerting them to the error
 		<cfmail to="dev_email@salud.unm.edu" from="dev_email@salud.unm.edu" subject="HSC App Error: #arguments.exception.rootcause.message#" type="html">#errortext#</cfmail> --->
-        
-        <!--- Optional redirect to a nicer error message for the user
-        <cflocation url="index.cfm?do=app.error" addtoken="no"> --->
-    </cffunction>
+
+		<!--- Optional redirect to a nicer error message for the user
+		<cflocation url="index.cfm?do=app.error" addtoken="no"> --->
+	</cffunction>
 
 </cfcomponent>
