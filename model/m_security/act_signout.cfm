@@ -1,5 +1,5 @@
 <cftry>
-	<cfcookie name="HSCNewApp" value="" expires="now" path="/" domain=".unm.edu">
+	<cfcookie name="HSCNewApp" value="" expires="now" path="/" domain=".login.edu">
 	
 	<cfcatch type="Any">
 		<cfset success="0">

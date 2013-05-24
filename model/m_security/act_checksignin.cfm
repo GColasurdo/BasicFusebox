@@ -1,12 +1,12 @@
 <!--- Quick note: the cookie and the registered appname should not be the same as the this.name created in the Application.cfc --->
 <cfif NOT IsDefined("cookie.HSCNewApp") OR Len(evaluate("cookie.HSCNewApp")) EQ 0>
 	<!--- is not signed in --->
-	<cflocation url="https://hscssl.unm.edu/login/index.cfm?act=app.login&appname=HSCNewApp" addtoken="no">
+	<cflocation url="https://[our.sites.login.edu]/login/index.cfm?act=app.login&appname=HSCNewApp" addtoken="no">
 <cfelse>
 	<!--- is signed in and optionally check/populate some local user information --->
 	<cfif NOT isDefined('variable.cn') or Len(variable.cn) EQ 0>
 		<!--- decrypt --->
-		<cffile action="read" file="e:\keys\key.cfm" variable="thekey">
+		<cffile action="read" file="[path to file with key]" variable="thekey">
 		<cfset variable.clearcookie = decrypt(evaluate("cookie.HSCNewApp"), thekey, 'AES/CBC/PKCS5Padding', 'base64')>
 		
 		<!--- optional: populate some variables --->
